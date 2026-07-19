@@ -10,7 +10,46 @@ const INITIAL_MASTERS: Master[] = [
 ];
 
 let masters = [...INITIAL_MASTERS];
-let expenses: ExpenseBook[] = [];
+
+function randomId(len = 12): string {
+  const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+  return Array.from({ length: len }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+}
+
+function pad(n: number): string {
+  return String(n).padStart(2, '0');
+}
+
+function seedExpenses(): ExpenseBook[] {
+  const cats = ['Food', 'Transport', 'Rent', 'Utilities', 'Shopping', 'Health'];
+  const remarks = ['', '', '', 'lunch', 'dinner', 'cab', 'grocery', 'electric', 'meds', 'snacks'];
+  const result: ExpenseBook[] = [];
+  let count = 0;
+
+  for (let day = 1; day <= 19 && count < 100; day++) {
+    const perDay = day <= 14 ? 5 : 6;
+    for (let i = 0; i < perDay && count < 100; i++) {
+      const cat = cats[count % cats.length];
+      const amt = Math.round((50 + Math.random() * 950) * 100) / 100;
+      const h = 8 + Math.floor(Math.random() * 12);
+      const m = Math.floor(Math.random() * 60);
+      const s = Math.floor(Math.random() * 60);
+      result.push({
+        year_month: '2026_07',
+        date_uuid: `2026_07_${pad(day)}_${randomId()}`,
+        cat,
+        amt,
+        rem: remarks[count % remarks.length],
+        user: 'vivek',
+        time: `${pad(h)}:${pad(m)}:${pad(s)}`,
+      });
+      count++;
+    }
+  }
+  return result;
+}
+
+let expenses: ExpenseBook[] = seedExpenses();
 
 function uuidDate(dateUuid: string): string {
   return dateUuid.slice(0, 10);
