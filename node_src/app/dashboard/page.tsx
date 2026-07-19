@@ -154,7 +154,7 @@ function Dashboard() {
   // weekly totals
   const weekMap = new Map<number, number>();
   for (const e of data) {
-    const dayNum = parseInt(e.date_uuid.split('_')[2], 10);
+    const dayNum = parseInt(e.date_uuid.split('_')[2] ?? '0', 10);
     const weekNum = Math.ceil(dayNum / 7);
     weekMap.set(weekNum, (weekMap.get(weekNum) ?? 0) + e.amt);
   }
