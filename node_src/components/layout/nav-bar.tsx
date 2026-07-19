@@ -4,43 +4,14 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from 'react-oidc-context';
 import clsx from 'clsx';
+import { getUsername } from '@/lib/auth-utils';
 
 const links = [
-  { href: '/masters', label: 'Masters' },
-  { href: '/dashboard', label: 'Dashboard' },
   { href: '/capture', label: 'Add Expense' },
+  { href: '/manage', label: 'Manage' },
+  { href: '/dashboard', label: 'Dashboard' },
+  { href: '/masters', label: 'Masters' },
 ];
-
-function decodeJwtPayload(token: string): Record<string, unknown> | null {
-  try {
-    const base64 = token.split('.')[1]!;
-    const json = atob(base64.replace(/-/g, '+').replace(/_/g, '/'));
-    return JSON.parse(json);
-  } catch {
-    return null;
-  }
-}
-
-function getUsername(user: ReturnType<typeof useAuth>['user']): string {
-  if (!user) return '';
-
-  // 1. Decode access_token — Cognito always puts "username" there
-  const atPayload = decodeJwtPayload(user.access_token ?? '');
-  const fromAT = atPayload?.username;
-  if (typeof fromAT === 'string' && fromAT) return fromAT;
-
-  // 2. Decode id_token if present
-  const idPayload = decodeJwtPayload(user.id_token ?? '');
-  const fromID = idPayload?.username;
-  if (typeof fromID === 'string' && fromID) return fromID;
-
-  // 3. Try profile (may or may not have it)
-  const fromProfile = user.profile.preferred_username ?? user.profile.username;
-  if (typeof fromProfile === 'string' && fromProfile) return fromProfile;
-
-  // 4. Last resort
-  return user.profile.sub ?? '';
-}
 
 export function NavBar() {
   const pathname = usePathname();

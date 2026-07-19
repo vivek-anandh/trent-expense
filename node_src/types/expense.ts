@@ -8,21 +8,22 @@ export interface Master {
 
 export type NewMaster = Master;
 
-// ── Expenses (placeholder — pending real API) ─────────────────────────────────
-export interface Expense {
-  id: string;
-  date: string; // ISO 8601
-  amount: number; // paise
-  categoryId: string;
-  paymentMethodId: string;
-  note?: string;
-  createdAt: string;
+// ── Expense Book (POST /expense-book) ────────────────────────────────────────
+export interface ExpenseBook {
+  year_month: string; // "2026_07"
+  uuid: string; // "2026_07_19_<random>"
+  cat: string;
+  amt: number;
+  rem: string;
+  user: string;
+  time: string; // "HH:MM:SS"
 }
 
-export type NewExpense = Omit<Expense, 'id' | 'createdAt'>;
+export type NewExpenseBook = ExpenseBook;
 
+// ── Dashboard (placeholder) ─────────────────────────────────────────────────
 export interface DashboardSummary {
-  totalSpend: number; // paise, for the selected range
+  totalSpend: number;
   byCategory: { categoryId: string; amount: number }[];
   byDate: { date: string; amount: number }[];
 }
