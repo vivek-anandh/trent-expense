@@ -289,9 +289,9 @@ function EditModal({
   });
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 sm:items-center" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" onClick={onClose}>
       <div
-        className="w-full max-w-sm rounded-t-card sm:rounded-card bg-white p-5 shadow-lg"
+        className="w-full max-w-sm mx-4 rounded-card bg-white p-5 shadow-lg"
         onClick={(e) => e.stopPropagation()}
       >
         <h3 className="mb-3 text-sm font-semibold text-ink">Edit Expense</h3>
