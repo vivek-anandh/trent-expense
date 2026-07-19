@@ -29,7 +29,7 @@ function seedExpenses(): ExpenseBook[] {
   for (let day = 1; day <= 19 && count < 100; day++) {
     const perDay = day <= 14 ? 5 : 6;
     for (let i = 0; i < perDay && count < 100; i++) {
-      const cat = cats[count % cats.length];
+      const cat = cats[count % cats.length]!;
       const amt = Math.round((50 + Math.random() * 950) * 100) / 100;
       const h = 8 + Math.floor(Math.random() * 12);
       const m = Math.floor(Math.random() * 60);
