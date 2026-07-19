@@ -94,8 +94,8 @@ function toYmd(d: Date): string {
 }
 
 function getYearMonths(startDate: string, endDate: string) {
-  const [sy, sm, sd] = startDate.split('_').map(Number);
-  const [ey, em, ed] = endDate.split('_').map(Number);
+  const [sy = 0, sm = 1, sd = 1] = startDate.split('_').map(Number);
+  const [ey = 0, em = 1, ed = 1] = endDate.split('_').map(Number);
 
   const start = new Date(sy, sm - 1, sd);
   const end = new Date(ey, em - 1, ed);
