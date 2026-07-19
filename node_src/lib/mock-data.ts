@@ -39,7 +39,7 @@ function seedExpenses(): ExpenseBook[] {
         date_uuid: `2026_07_${pad(day)}_${randomId()}`,
         cat,
         amt,
-        rem: remarks[count % remarks.length],
+        rem: remarks[count % remarks.length] ?? '',
         user: 'vivek',
         time: `${pad(h)}:${pad(m)}:${pad(s)}`,
       });
