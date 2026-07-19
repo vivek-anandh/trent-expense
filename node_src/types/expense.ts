@@ -11,7 +11,7 @@ export type NewMaster = Master;
 // ── Expense Book (POST /expense-book) ────────────────────────────────────────
 export interface ExpenseBook {
   year_month: string; // "2026_07"
-  uuid: string; // "2026_07_19_<random>"
+  date_uuid: string; // "2026_07_19_<random>"
   cat: string;
   amt: number;
   rem: string;

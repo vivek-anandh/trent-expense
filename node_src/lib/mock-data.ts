@@ -12,8 +12,8 @@ const INITIAL_MASTERS: Master[] = [
 let masters = [...INITIAL_MASTERS];
 let expenses: ExpenseBook[] = [];
 
-function uuidDate(uuid: string): string {
-  return uuid.slice(0, 10);
+function uuidDate(dateUuid: string): string {
+  return dateUuid.slice(0, 10);
 }
 
 export function mockGet(path: string): unknown {
@@ -22,12 +22,12 @@ export function mockGet(path: string): unknown {
   if (path.startsWith('/expense-book')) {
     const params = new URLSearchParams(path.split('?')[1] ?? '');
     const yearMonth = params.get('year_month');
-    const uuid = params.get('uuid');
+    const dateUuid = params.get('date_uuid');
     const startData = params.get('start_data');
     const endDate = params.get('end_date');
 
-    if (uuid) {
-      return expenses.find((e) => e.year_month === yearMonth && e.uuid === uuid) ?? null;
+    if (dateUuid) {
+      return expenses.find((e) => e.year_month === yearMonth && e.date_uuid === dateUuid) ?? null;
     }
 
     let result = expenses.filter((e) => e.year_month === yearMonth);
@@ -35,7 +35,7 @@ export function mockGet(path: string): unknown {
     if (startData && endDate) {
       const endClean = endDate.replace(/_z$/, '');
       result = result.filter((e) => {
-        const d = uuidDate(e.uuid);
+        const d = uuidDate(e.date_uuid);
         return d >= startData && d <= endClean;
       });
     }
@@ -64,13 +64,13 @@ export function mockPost(path: string, body: unknown): unknown {
 
     if (data.action === 'remove') {
       expenses = expenses.filter(
-        (e) => !(e.year_month === data.year_month && e.uuid === data.uuid),
+        (e) => !(e.year_month === data.year_month && e.date_uuid === data.date_uuid),
       );
       return null;
     }
 
     const existing = expenses.findIndex(
-      (e) => e.year_month === data.year_month && e.uuid === data.uuid,
+      (e) => e.year_month === data.year_month && e.date_uuid === data.date_uuid,
     );
     if (existing >= 0) {
       expenses = expenses.map((e, i) => (i === existing ? { ...data } : e));

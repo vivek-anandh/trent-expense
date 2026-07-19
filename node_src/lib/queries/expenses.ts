@@ -29,8 +29,8 @@ export function useExpenseBooksByDateRange(startDate: string, endDate: string) {
       );
       return results
         .flat()
-        .filter((e): e is ExpenseBook => !!e && typeof e.uuid === 'string')
-        .sort((a, b) => b.uuid.localeCompare(a.uuid));
+        .filter((e): e is ExpenseBook => !!e && typeof e.date_uuid === 'string')
+        .sort((a, b) => b.date_uuid.localeCompare(a.date_uuid));
     },
     enabled: !!startDate && !!endDate,
   });
@@ -73,7 +73,7 @@ export function useDeleteExpenseBook() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (expense: { year_month: string; uuid: string }) =>
+    mutationFn: (expense: { year_month: string; date_uuid: string }) =>
       api.post<void>('/expense-book', { ...expense, action: 'remove' }),
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({

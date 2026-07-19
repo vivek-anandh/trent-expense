@@ -84,7 +84,7 @@ function CaptureContent() {
     createExpense.mutate(
       {
         year_month: `${values.year}_${values.month}`,
-        uuid: `${values.year}_${values.month}_${values.day}_${randomId()}`,
+        date_uuid: `${values.year}_${values.month}_${values.day}_${randomId()}`,
         cat: values.cat,
         amt: values.amt,
         rem: values.remark ?? '',

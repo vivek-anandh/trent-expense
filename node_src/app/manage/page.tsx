@@ -65,7 +65,7 @@ function ManageContent() {
   const deleteExpense = useDeleteExpenseBook();
 
   const data = (expenses.data ?? []).filter(
-    (e): e is ExpenseBook => !!e && typeof e.uuid === 'string',
+    (e): e is ExpenseBook => !!e && typeof e.date_uuid === 'string',
   );
   const totalPages = Math.max(1, Math.ceil(data.length / PAGE_SIZE));
   const pageData = data.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
@@ -122,8 +122,8 @@ function ManageContent() {
                 </thead>
                 <tbody>
                   {pageData.map((row) => (
-                    <tr key={row.uuid} className="border-b border-gray-50 hover:bg-gray-50">
-                      <td className="px-4 py-2 text-ink">{displayDate(row.uuid)}</td>
+                    <tr key={row.date_uuid} className="border-b border-gray-50 hover:bg-gray-50">
+                      <td className="px-4 py-2 text-ink">{displayDate(row.date_uuid)}</td>
                       <td className="px-4 py-2 text-ink">{row.cat}</td>
                       <td className="px-4 py-2 text-right text-ink">{row.amt}</td>
                       <td className="px-4 py-2 text-ink-faint">{row.rem}</td>
@@ -141,7 +141,7 @@ function ManageContent() {
                             if (window.confirm('Delete this expense?')) {
                               deleteExpense.mutate({
                                 year_month: row.year_month,
-                                uuid: row.uuid,
+                                date_uuid: row.date_uuid,
                               });
                             }
                           }}
