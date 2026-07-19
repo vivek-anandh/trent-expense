@@ -1,0 +1,56 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: node_src/package-lock.json
+
+      - name: Install dependencies
+        working-directory: node_src
+        run: npm ci
+
+      - name: Build static site
+        working-directory: node_src
+        run: npm run build
+        env:
+          NEXT_PUBLIC_OIDC_AUTHORITY: ${{ secrets.NEXT_PUBLIC_OIDC_AUTHORITY }}
+          NEXT_PUBLIC_OIDC_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_OIDC_CLIENT_ID }}
+          NEXT_PUBLIC_OIDC_REDIRECT_URI: ${{ secrets.NEXT_PUBLIC_OIDC_REDIRECT_URI }}
+          NEXT_PUBLIC_OIDC_SCOPE: ${{ secrets.NEXT_PUBLIC_OIDC_SCOPE }}
+          NEXT_PUBLIC_API_BASE_URL: ${{ secrets.NEXT_PUBLIC_API_BASE_URL }}
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: node_src/out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
