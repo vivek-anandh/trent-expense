@@ -12,6 +12,20 @@ export class ApiError extends Error {
   }
 }
 
+/**
+ * Extract payload from the API's envelope:
+ *   { data: { Items: [...] }, message: "Success" }  → array
+ *   { data: { Item:  {...} }, message: "Success" }  → single object
+ *   Anything else passes through as-is.
+ */
+function unwrap<T>(json: Record<string, unknown>): T {
+  const data = json.data as Record<string, unknown> | undefined;
+  if (!data) return json as T;
+  if ('Items' in data) return data.Items as T;
+  if ('Item' in data) return data.Item as T;
+  return json as T;
+}
+
 export function createApiClient(accessToken: string | undefined) {
   async function request<T>(path: string, init?: RequestInit): Promise<T> {
     if (!IS_PROD) {
@@ -36,7 +50,8 @@ export function createApiClient(accessToken: string | undefined) {
       return undefined as T;
     }
 
-    return (await res.json()) as T;
+    const json = (await res.json()) as Record<string, unknown>;
+    return unwrap<T>(json);
   }
 
   return {
@@ -53,11 +68,7 @@ function mockRequest<T>(path: string, init?: RequestInit): T {
   const method = init?.method ?? 'GET';
   const body = init?.body ? JSON.parse(init.body as string) : undefined;
 
-  if (method === 'GET') {
-    return mockGet(path) as T;
-  }
-  if (method === 'POST') {
-    return mockPost(path, body) as T;
-  }
+  if (method === 'GET') return mockGet(path) as T;
+  if (method === 'POST') return mockPost(path, body) as T;
   throw new ApiError(405, `Mock: ${method} ${path} not implemented`);
 }

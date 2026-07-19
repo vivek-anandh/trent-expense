@@ -13,7 +13,7 @@ export default function AuthCallbackPage() {
 
   useEffect(() => {
     if (!auth.isLoading && auth.isAuthenticated) {
-      router.replace('/dashboard');
+      router.replace('/capture');
     }
   }, [auth.isLoading, auth.isAuthenticated, router]);
 

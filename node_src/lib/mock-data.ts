@@ -1,6 +1,6 @@
 import type { Master } from '@/types/expense';
 
-export const MOCK_MASTERS: Master[] = [
+const INITIAL: Master[] = [
   { name: 'Food', desc: 'Meals, groceries, snacks' },
   { name: 'Transport', desc: 'Auto, cab, metro, fuel' },
   { name: 'Rent', desc: 'Monthly rent' },
@@ -9,7 +9,7 @@ export const MOCK_MASTERS: Master[] = [
   { name: 'Health', desc: 'Medicine, doctor visits' },
 ];
 
-let masters = [...MOCK_MASTERS];
+let masters = [...INITIAL];
 
 export function mockGet(path: string): unknown {
   if (path === '/expense') return [...masters];
