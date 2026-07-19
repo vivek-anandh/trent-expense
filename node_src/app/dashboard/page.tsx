@@ -223,14 +223,14 @@ function Dashboard() {
                   tick={{ fontSize: 11, fill: '#475467' }}
                 />
                 <Tooltip
-                  formatter={(v: number) => `₹${fmt(v)}`}
+                  formatter={(v) => `₹${fmt(Number(v))}`}
                   contentStyle={{ fontSize: 12, borderRadius: 8 }}
                 />
                 <Bar dataKey="amt" fill="#2563EB" radius={[0, 6, 6, 0]} barSize={24}>
                   <LabelList
                     dataKey="pct"
                     position="right"
-                    formatter={(v: number) => `${v}%`}
+                    formatter={(v) => `${v}%`}
                     style={{ fontSize: 11, fill: '#475467', fontWeight: 600 }}
                   />
                 </Bar>
@@ -265,14 +265,14 @@ function Dashboard() {
                   width={50}
                 />
                 <Tooltip
-                  formatter={(v: number) => `₹${fmt(v)}`}
+                  formatter={(v) => `₹${fmt(Number(v))}`}
                   contentStyle={{ fontSize: 12, borderRadius: 8 }}
                 />
                 <Bar dataKey="amt" fill="#7C3AED" radius={[6, 6, 0, 0]} barSize={36}>
                   <LabelList
                     dataKey="amt"
                     position="top"
-                    formatter={(v: number) => `₹${fmt(v)}`}
+                    formatter={(v) => `₹${fmt(Number(v))}`}
                     style={{ fontSize: 11, fill: '#475467', fontWeight: 600 }}
                   />
                 </Bar>
@@ -307,7 +307,7 @@ function Dashboard() {
                 width={50}
               />
               <Tooltip
-                formatter={(v: number) => `₹${fmt(v)}`}
+                    formatter={(v) => `₹${fmt(Number(v))}`}
                 labelFormatter={(l) => `Day ${l}`}
                 contentStyle={{ fontSize: 12, borderRadius: 8 }}
               />
@@ -341,14 +341,14 @@ function Dashboard() {
                 tick={{ fontSize: 13, fill: '#475467' }}
               />
               <Tooltip
-                formatter={(v: number) => `₹${fmt(v)}`}
+                    formatter={(v) => `₹${fmt(Number(v))}`}
                 contentStyle={{ fontSize: 12, borderRadius: 8 }}
               />
               <Bar dataKey="amt" fill="#2563EB" radius={[0, 6, 6, 0]} barSize={28}>
                 <LabelList
                   dataKey="pct"
                   position="right"
-                  formatter={(v: number) => `${v}%`}
+                    formatter={(v) => `${v}%`}
                   style={{ fontSize: 12, fill: '#475467', fontWeight: 600 }}
                 />
               </Bar>
@@ -376,14 +376,14 @@ function Dashboard() {
                 width={60}
               />
               <Tooltip
-                formatter={(v: number) => `₹${fmt(v)}`}
+                    formatter={(v) => `₹${fmt(Number(v))}`}
                 contentStyle={{ fontSize: 12, borderRadius: 8 }}
               />
               <Bar dataKey="amt" fill="#7C3AED" radius={[6, 6, 0, 0]} barSize={48}>
                 <LabelList
                   dataKey="amt"
                   position="top"
-                  formatter={(v: number) => `₹${fmt(v)}`}
+                  formatter={(v) => `₹${fmt(Number(v))}`}
                   style={{ fontSize: 12, fill: '#475467', fontWeight: 600 }}
                 />
               </Bar>
@@ -410,7 +410,7 @@ function Dashboard() {
                 width={60}
               />
               <Tooltip
-                formatter={(v: number) => `₹${fmt(v)}`}
+                    formatter={(v) => `₹${fmt(Number(v))}`}
                 labelFormatter={(l) => `Day ${l}`}
                 contentStyle={{ fontSize: 12, borderRadius: 8 }}
               />
