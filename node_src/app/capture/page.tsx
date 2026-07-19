@@ -156,7 +156,7 @@ function CaptureContent() {
         <label className="mb-2 block text-xs font-semibold uppercase tracking-wide text-ink-faint">
           Date
         </label>
-        <div className="mb-4 flex gap-2">
+        <div className="mb-4 grid grid-cols-3 gap-2">
           <select {...register('day')} className="input">
             {DAYS.map((d) => (
               <option key={d} value={d}>{d}</option>

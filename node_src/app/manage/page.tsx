@@ -72,13 +72,22 @@ function ManageContent() {
 
   if (page > totalPages) setPage(totalPages);
 
+  const handleDelete = (row: ExpenseBook) => {
+    if (window.confirm('Delete this expense?')) {
+      deleteExpense.mutate({
+        year_month: row.year_month,
+        date_uuid: row.date_uuid,
+      });
+    }
+  };
+
   return (
     <div className="pt-6">
       <h1 className="mb-1 text-2xl font-extrabold text-ink">Manage Expenses</h1>
       <p className="mb-6 text-sm text-ink-faint">View, edit, and delete expenses.</p>
 
       {/* search buttons */}
-      <div className="mb-4 flex gap-2">
+      <div className="mb-4 flex flex-wrap items-center gap-2">
         {(['1w', '2w', '1m'] as RangeKey[]).map((r) => (
           <button
             key={r}
@@ -92,7 +101,7 @@ function ManageContent() {
             {r === '1w' ? 'Last 1 Week' : r === '2w' ? 'Last 2 Weeks' : 'Last 1 Month'}
           </button>
         ))}
-        <span className="ml-auto self-center text-xs text-ink-faint">
+        <span className="ml-auto text-xs text-ink-faint">
           {data.length} record{data.length !== 1 ? 's' : ''}
         </span>
       </div>
@@ -107,7 +116,8 @@ function ManageContent() {
           <div className="p-8 text-center text-sm text-ink-faint">No records found.</div>
         ) : (
           <>
-            <div className="overflow-x-auto">
+            {/* desktop table */}
+            <div className="hidden md:block overflow-x-auto">
               <table className="w-full text-left text-sm">
                 <thead>
                   <tr className="border-b border-gray-100 text-xs font-semibold uppercase tracking-wide text-ink-faint">
@@ -137,14 +147,7 @@ function ManageContent() {
                           Edit
                         </button>
                         <button
-                          onClick={() => {
-                            if (window.confirm('Delete this expense?')) {
-                              deleteExpense.mutate({
-                                year_month: row.year_month,
-                                date_uuid: row.date_uuid,
-                              });
-                            }
-                          }}
+                          onClick={() => handleDelete(row)}
                           disabled={deleteExpense.isPending}
                           className="text-xs font-medium text-down hover:underline disabled:opacity-50"
                         >
@@ -155,6 +158,43 @@ function ManageContent() {
                   ))}
                 </tbody>
               </table>
+            </div>
+
+            {/* mobile cards */}
+            <div className="md:hidden divide-y divide-gray-100">
+              {pageData.map((row) => (
+                <div key={row.date_uuid} className="px-4 py-3">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="text-sm font-semibold text-ink">{row.cat}</span>
+                        <span className="text-xs text-ink-faint">{displayDate(row.date_uuid)}</span>
+                      </div>
+                      <div className="mt-1 flex items-center gap-3 text-xs text-ink-faint">
+                        {row.rem && <span>{row.rem}</span>}
+                        <span>{row.user}</span>
+                        <span>{row.time}</span>
+                      </div>
+                    </div>
+                    <span className="text-sm font-semibold text-ink whitespace-nowrap">₹{row.amt}</span>
+                  </div>
+                  <div className="mt-2 flex gap-3">
+                    <button
+                      onClick={() => setEditing(row)}
+                      className="text-xs font-medium text-brand hover:underline"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(row)}
+                      disabled={deleteExpense.isPending}
+                      className="text-xs font-medium text-down hover:underline disabled:opacity-50"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
 
             {/* pagination */}
@@ -249,9 +289,9 @@ function EditModal({
   });
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 sm:items-center" onClick={onClose}>
       <div
-        className="w-full max-w-sm rounded-card bg-white p-5 shadow-lg"
+        className="w-full max-w-sm rounded-t-card sm:rounded-card bg-white p-5 shadow-lg"
         onClick={(e) => e.stopPropagation()}
       >
         <h3 className="mb-3 text-sm font-semibold text-ink">Edit Expense</h3>

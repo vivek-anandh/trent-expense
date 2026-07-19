@@ -18,6 +18,7 @@ const config: Config = {
       },
       borderRadius: {
         card: '14px',
+        't-card': '14px 14px 0 0',
       },
     },
   },

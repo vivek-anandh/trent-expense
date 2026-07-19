@@ -57,8 +57,8 @@ function MastersContent() {
               key={item.name}
               className="flex items-center justify-between py-2 text-sm"
             >
-              <div>
-                <span className="text-ink">{item.name}</span>
+              <div className="min-w-0">
+                <span className="text-ink truncate block">{item.name}</span>
                 {item.desc && (
                   <span className="ml-2 text-ink-faint">— {item.desc}</span>
                 )}
@@ -131,11 +131,11 @@ function MasterFormModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40"
+      className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 sm:items-center"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-sm rounded-card bg-white p-5 shadow-lg"
+        className="w-full max-w-sm rounded-t-card sm:rounded-card bg-white p-5 shadow-lg"
         onClick={(e) => e.stopPropagation()}
       >
         <h3 className="mb-3 text-sm font-semibold text-ink">
