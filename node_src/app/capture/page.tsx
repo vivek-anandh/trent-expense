@@ -95,6 +95,9 @@ function CaptureContent() {
         onSuccess: () => {
           setSuccess(true);
           reset({
+            cat: '',
+            amt: undefined,
+            remark: '',
             year: String(now.getFullYear()),
             month: pad(now.getMonth() + 1),
             day: pad(now.getDate()),

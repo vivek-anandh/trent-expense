@@ -7,6 +7,7 @@ export function useMasters() {
   return useQuery({
     queryKey: ['masters'],
     queryFn: () => api.get<Master[]>('/expense'),
+    staleTime: 24 * 60 * 60 * 1000,
   });
 }
 

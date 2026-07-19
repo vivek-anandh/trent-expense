@@ -6,7 +6,17 @@ import { useState, type ReactNode } from 'react';
 import { oidcConfig } from '@/lib/auth-config';
 
 export function AppProviders({ children }: { children: ReactNode }) {
-  const [queryClient] = useState(() => new QueryClient());
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            refetchOnWindowFocus: false,
+            refetchOnReconnect: false,
+          },
+        },
+      }),
+  );
 
   return (
     <AuthProvider {...oidcConfig}>

@@ -58,7 +58,7 @@ export function useUpdateExpenseBook() {
 
   return useMutation({
     mutationFn: (expense: ExpenseBook) =>
-      api.post<ExpenseBook>('/expense-book', expense),
+      api.post<ExpenseBook>('/expense-book', { ...expense, time: nowTime() }),
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({
         queryKey: ['expense-books', variables.year_month],
@@ -88,6 +88,11 @@ export function useDeleteExpenseBook() {
 
 function pad(n: number): string {
   return String(n).padStart(2, '0');
+}
+
+function nowTime(): string {
+  const t = new Date();
+  return `${pad(t.getHours())}:${pad(t.getMinutes())}:${pad(t.getSeconds())}`;
 }
 
 function toYmd(d: Date): string {
