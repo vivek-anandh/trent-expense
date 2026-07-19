@@ -59,6 +59,8 @@ function CaptureContent() {
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      cat: '',
+      remark: '',
       year: String(now.getFullYear()),
       month: pad(now.getMonth() + 1),
       day: pad(now.getDate()),
@@ -94,14 +96,7 @@ function CaptureContent() {
       {
         onSuccess: () => {
           setSuccess(true);
-          reset({
-            cat: '',
-            amt: undefined,
-            remark: '',
-            year: String(now.getFullYear()),
-            month: pad(now.getMonth() + 1),
-            day: pad(now.getDate()),
-          });
+          reset();
           setTimeout(() => setSuccess(false), 3000);
         },
       },
