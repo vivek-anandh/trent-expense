@@ -29,6 +29,7 @@ export function useExpenseBooksByDateRange(startDate: string, endDate: string) {
       );
       return results
         .flat()
+        .filter((e): e is ExpenseBook => !!e && typeof e.uuid === 'string')
         .sort((a, b) => b.uuid.localeCompare(a.uuid));
     },
     enabled: !!startDate && !!endDate,

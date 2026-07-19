@@ -64,7 +64,9 @@ function ManageContent() {
   const updateExpense = useUpdateExpenseBook();
   const deleteExpense = useDeleteExpenseBook();
 
-  const data = expenses.data ?? [];
+  const data = (expenses.data ?? []).filter(
+    (e): e is ExpenseBook => !!e && typeof e.uuid === 'string',
+  );
   const totalPages = Math.max(1, Math.ceil(data.length / PAGE_SIZE));
   const pageData = data.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 

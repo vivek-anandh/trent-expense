@@ -16,13 +16,17 @@ export class ApiError extends Error {
  * Extract payload from the API's envelope:
  *   { data: { Items: [...] }, message: "Success" }  → array
  *   { data: { Item:  {...} }, message: "Success" }  → single object
+ *   { data: [...],           message: "Success" }  → array (direct)
  *   Anything else passes through as-is.
  */
 function unwrap<T>(json: Record<string, unknown>): T {
-  const data = json.data as Record<string, unknown> | undefined;
-  if (!data) return json as T;
-  if ('Items' in data) return data.Items as T;
-  if ('Item' in data) return data.Item as T;
+  const data = json.data;
+  if (data === undefined || data === null) return json as T;
+  if (Array.isArray(data)) return data as T;
+  if (typeof data === 'object') {
+    if ('Items' in data) return (data as Record<string, unknown>).Items as T;
+    if ('Item' in data) return (data as Record<string, unknown>).Item as T;
+  }
   return json as T;
 }
 
